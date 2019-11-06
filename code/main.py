@@ -10,7 +10,7 @@ from keras.models import Model, load_model
 
 dict_ind_to_class = {0:'Pulling Hand In',2:'Swipe Left',1:'Swipe Right',3:'Thumb Up',4:'No Gesture'}
 
-model1_path = "./Models/Model_84_5_jester"
+model1_path = "../Models/Model_84_5_jester"
 model1 = load_model(model1_path)
 
 font = cv2.FONT_HERSHEY_SIMPLEX
