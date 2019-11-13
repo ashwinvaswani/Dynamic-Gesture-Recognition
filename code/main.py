@@ -1,48 +1,104 @@
-from pynput.keyboard import Key,Controller
+# from pynput.keyboard import Key,Controller
 import os
 
 import numpy as np
 import cv2
 import time
 from keras.models import Model, load_model
-import keyboard
-import pyautogui
+import subprocess
+# import pyautogui
 
 def minimizer():
     # time.sleep(0.2)
-    try:     
-        keyboard.press_and_release('cmd+d')
-    except Exception as e:
-        return str(e)
-    return "success"
+
+    #For Windows
+    if os.name == 'nt':
+        import keyboard
+        try:     
+            keyboard.press_and_release() 
+        except Exception as e:
+            return str(e)
+        return "success"
+    else:
+        try:     
+            subprocess.call(["xte","keydown Super_L","key h","keyup Super_L"]) 
+        except Exception as e:
+            return str(e)
+        return "success"
+
 
 def tabs_cycle():
-    try:
-        keyboard.press_and_release('alt+shift+tab')
-    except Exception as e:
-        return str(e)
-    return "success"
+
+    #For Windows
+    if os.name == 'nt':
+        import keyboard
+        try:     
+            keyboard.press_and_release() 
+        except Exception as e:
+            return str(e)
+        return "success"
+    else:
+        try:
+            subprocess.call(["xte","keydown Alt_L","keydown Shift_L","key Tab","keyup Shift_L","keyup Alt_L"]) 
+        except Exception as e:
+            return str(e)
+        return "success"
 
 def bring_up_tabs():
 #     time.sleep(3)
-    try:
-        keyboard.press_and_release('win+shift+m')
-    except Exception as e:
-        return str(e)
-    return "success"
+
+    #For Windows
+    if os.name == 'nt':
+        import keyboard
+        try:     
+            keyboard.press_and_release() 
+        except Exception as e:
+            return str(e)
+        return "success"
+    else:
+        try:
+            subprocess.call(["xte","keydown Super_L","keydown Shift_L","key m","keyup Shift_L","keyup Super_L"])
+        except Exception as e:
+            return str(e)
+        return "success"
 
 def bring_down_tabs():
 #     time.sleep(0.5)
-    try:
-        keyboard.press_and_release('win+m')
-    except Exception as e:
-        return str(e)
-    return "success"
+
+    #For Windows
+    if os.name == 'nt':
+        import keyboard
+        try:     
+            keyboard.press_and_release() 
+        except Exception as e:
+            return str(e)
+        return "success"
+    else:
+        try:
+            subprocess.call(["xte","keydown Super_L","key d","keyup Super_L"])
+        except Exception as e:
+            return str(e)
+        return "success"
 
 def take_ss(count=[0]):
-    count[0]=count[0]+1
-    myss = pyautogui.screenshot()
-    myss.save('./Screenshots/ss'+str(count[0])+'.png')
+    #For Windows
+    if os.name == 'nt':
+        import pyautogui
+        count[0]=count[0]+1
+        try:     
+            keyboard.press_and_release() 
+        except Exception as e:
+            return str(e)
+        return "success"
+    else:
+        count[0]=count[0]+1
+        try:
+            # keyboard.press_and_release(["xte","keydown Super_L","key d","keyup Super_L"])
+            path = './Screenshots/ss'+str(count[0])+'.png' 
+            subprocess.call(["xte","scrot",path])
+        except Exception as e:
+            return str(e)
+        return "success"
 
 
 dict_ind_to_class = {0:'Pulling Hand In',2:'Swipe Left',1:'Swipe Right',3:'Thumb Up',4:'No Gesture'}
@@ -57,9 +113,7 @@ cap = cv2.VideoCapture(0)
 cv2.namedWindow('Original', cv2.WINDOW_NORMAL)
 cv2.resizeWindow('Original',720,720)
 
-# set rt size as 640x480
-# cap.set(3, 1280)
-# cap.set(4, 720)
+
 framecount = 0
 fps = ""
 start = time.time()
@@ -67,7 +121,7 @@ frames = []
 num=[5]
 max =1
 real_index = 5
-instruction = 'No Gestrue'
+instruction = 'No Gesture'
 pre =0
 prev2 = None
 prev = None
@@ -111,13 +165,13 @@ while(1):
         instruction = dict_ind_to_class[num[0]]
         if num[0]==prev and prev!=prev2:
             if num[0]==0:
-                print(minimizer())
-            if num[0]==1:
                 print(bring_down_tabs())
+            if num[0]==1:
+                print(minimizer())
             if num[0]==2:
                 print(tabs_cycle())
             if num[0]==3:
-                print(bring_up_tabs())
+                print(take_ss())
         print("Curr Gesture : ",dict_ind_to_class[num[0]],"prev :",dict_ind_to_class[prev] if prev!=None else '000',"prev2 :",dict_ind_to_class[prev2] if prev2!=None else '-----')
         prev2 = prev
         prev = num[0]
