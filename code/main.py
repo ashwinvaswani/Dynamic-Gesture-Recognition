@@ -10,15 +10,13 @@ import pyautogui
 
 def minimizer():
     # time.sleep(0.2)
-    keyboard = Controller()
     try:     
-        keyboard.press_and_release('win+d')
+        keyboard.press_and_release('cmd+d')
     except Exception as e:
         return str(e)
     return "success"
 
 def tabs_cycle():
-    keyboard = Controller()
     try:
         keyboard.press_and_release('alt+shift+tab')
     except Exception as e:
@@ -26,7 +24,6 @@ def tabs_cycle():
     return "success"
 
 def bring_up_tabs():
-    keyboard = Controller()
 #     time.sleep(3)
     try:
         keyboard.press_and_release('win+shift+m')
@@ -35,7 +32,6 @@ def bring_up_tabs():
     return "success"
 
 def bring_down_tabs():
-    keyboard = Controller()
 #     time.sleep(0.5)
     try:
         keyboard.press_and_release('win+m')
@@ -43,10 +39,10 @@ def bring_down_tabs():
         return str(e)
     return "success"
 
-# def take_ss(count=[0]):
-#     count[0]=count[0]+1
-#     myss = pyautogui.screenshot()
-#     myss.save(r'C:\Users\ak19o\Downloads\ss'+str(count[0])+'.png')
+def take_ss(count=[0]):
+    count[0]=count[0]+1
+    myss = pyautogui.screenshot()
+    myss.save('./Screenshots/ss'+str(count[0])+'.png')
 
 
 dict_ind_to_class = {0:'Pulling Hand In',2:'Swipe Left',1:'Swipe Right',3:'Thumb Up',4:'No Gesture'}
