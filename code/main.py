@@ -15,7 +15,7 @@ def minimizer():
     if os.name == 'nt':
         import keyboard
         try:     
-            keyboard.press_and_release() 
+            keyboard.press_and_release('win+shift+down') 
         except Exception as e:
             return str(e)
         return "success"
@@ -33,7 +33,7 @@ def tabs_cycle():
     if os.name == 'nt':
         import keyboard
         try:     
-            keyboard.press_and_release() 
+            keyboard.press_and_release('alt+shift+tab')
         except Exception as e:
             return str(e)
         return "success"
@@ -51,7 +51,7 @@ def bring_up_tabs():
     if os.name == 'nt':
         import keyboard
         try:     
-            keyboard.press_and_release() 
+            keyboard.press_and_release('win+d')
         except Exception as e:
             return str(e)
         return "success"
@@ -69,7 +69,7 @@ def bring_down_tabs():
     if os.name == 'nt':
         import keyboard
         try:     
-            keyboard.press_and_release() 
+            keyboard.press_and_release('win+m')
         except Exception as e:
             return str(e)
         return "success"
@@ -100,6 +100,13 @@ def take_ss(count=[0]):
             return str(e)
         return "success"
 
+def refresher():
+    try:
+        keyboard.press_and_release('ctrl+r')
+    except Exception as e:
+        return str(e)
+    return "success"
+
 
 dict_ind_to_class = {0:'Pulling Hand In',2:'Swipe Left',1:'Swipe Right',3:'Thumb Up',4:'No Gesture'}
 
@@ -125,6 +132,7 @@ instruction = 'No Gesture'
 pre =0
 prev2 = None
 prev = None
+black = np.zeros((100, 400, 3), dtype = "uint8")
 
 num_classes = 5
 while(1):
@@ -177,15 +185,19 @@ while(1):
         prev = num[0]
         
     cv2.putText(frame, instruction, (450, 50), font, 0.7, (0, 255, 0), 2, 1)
+    cv2.putText(black, "Quiet Mode  "+instruction, (0,50), font, 0.8, (255, 255, 255), 2, 1)
     if not quietMode:
-            cv2.imshow('Original',frame)
+        cv2.resizeWindow('Original',720,720)
+        cv2.imshow('Original',frame)
+    if quietMode:
+        cv2.resizeWindow('Original',100,400)
+        cv2.imshow('Original',black)
     key = cv2.waitKey(1) & 0xFF
-    ## Use Esc key to close the program
     if key == 27:
         break
     elif key == ord('q'):
         quietMode = not quietMode
-        print("Quiet Mode - {}".format(quietMode))
+        minimizer()
 cap.release()
 cv2.destroyAllWindows()
     
