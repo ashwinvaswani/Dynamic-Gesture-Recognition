@@ -1,12 +1,53 @@
-from  pynput import mouse, keyboard
-from pynput.keyboard import Key
+from pynput.keyboard import Key,Controller
 import os
-import matplotlib
-import matplotlib.pyplot as plt
+
 import numpy as np
 import cv2
 import time
 from keras.models import Model, load_model
+import keyboard
+import pyautogui
+
+def minimizer():
+    # time.sleep(0.2)
+    keyboard = Controller()
+    try:     
+        keyboard.press_and_release('win+d')
+    except Exception as e:
+        return str(e)
+    return "success"
+
+def tabs_cycle():
+    keyboard = Controller()
+    try:
+        keyboard.press_and_release('alt+shift+tab')
+    except Exception as e:
+        return str(e)
+    return "success"
+
+def bring_up_tabs():
+    keyboard = Controller()
+#     time.sleep(3)
+    try:
+        keyboard.press_and_release('win+shift+m')
+    except Exception as e:
+        return str(e)
+    return "success"
+
+def bring_down_tabs():
+    keyboard = Controller()
+#     time.sleep(0.5)
+    try:
+        keyboard.press_and_release('win+m')
+    except Exception as e:
+        return str(e)
+    return "success"
+
+# def take_ss(count=[0]):
+#     count[0]=count[0]+1
+#     myss = pyautogui.screenshot()
+#     myss.save(r'C:\Users\ak19o\Downloads\ss'+str(count[0])+'.png')
+
 
 dict_ind_to_class = {0:'Pulling Hand In',2:'Swipe Left',1:'Swipe Right',3:'Thumb Up',4:'No Gesture'}
 
@@ -30,8 +71,10 @@ frames = []
 num=[5]
 max =1
 real_index = 5
-instruction = 'no Gestrue'
+instruction = 'No Gestrue'
 pre =0
+prev2 = None
+prev = None
 
 num_classes = 5
 while(1):
@@ -58,7 +101,7 @@ while(1):
     input=np.array(frames)
     
     if input.shape[0]==16:
-        frames = []
+        frames = frames[4:]
         X_tr.append(input)
         X_train= np.array(X_tr)
         train_set = np.zeros((1, 16, img_cols,img_rows,3))
@@ -70,7 +113,18 @@ while(1):
         # print(result_1)
         num = np.argmax(result_1,axis =1)
         instruction = dict_ind_to_class[num[0]]
-        print(dict_ind_to_class[num[0]])
+        if num[0]==prev and prev!=prev2:
+            if num[0]==0:
+                print(minimizer())
+            if num[0]==1:
+                print(bring_down_tabs())
+            if num[0]==2:
+                print(tabs_cycle())
+            if num[0]==3:
+                print(bring_up_tabs())
+        print("Curr Gesture : ",dict_ind_to_class[num[0]],"prev :",dict_ind_to_class[prev] if prev!=None else '000',"prev2 :",dict_ind_to_class[prev2] if prev2!=None else '-----')
+        prev2 = prev
+        prev = num[0]
         
     cv2.putText(frame, instruction, (450, 50), font, 0.7, (0, 255, 0), 2, 1)
     if not quietMode:
