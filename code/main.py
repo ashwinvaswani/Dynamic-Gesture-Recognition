@@ -106,6 +106,83 @@ def refresher():
             return str(e)
         return "success"
 
+def vlc_right():
+    # For windows
+    if os.name == 'nt':
+        import keyboard
+        try:
+            keyboard.press_and_release('ctrl+right')
+        except Exception as e:
+            return str(e)
+        return "success"
+    else:
+        try:
+            subprocess.call(["xte","keydown Ctrl_L","key right","keyup Ctrl_L"])
+        except Exception as e:
+            return str(e)
+        return "success"
+
+def vlc_left():
+    # For windows
+    if os.name == 'nt':
+        import keyboard
+        try:
+            keyboard.press_and_release('ctrl+right')
+        except Exception as e:
+            return str(e)
+        return "success"
+    else:
+        try:
+            subprocess.call(["xte","keydown Ctrl_L","key left","keyup Ctrl_L"])
+        except Exception as e:
+            return str(e)
+        return "success"
+
+
+def vlc_volumeup():
+    # For windows
+    if os.name == 'nt':
+        import keyboard
+        try:
+            keyboard.press_and_release('ctrl+up')
+            keyboard.press_and_release('ctrl+up')
+            keyboard.press_and_release('ctrl+up')
+            keyboard.press_and_release('ctrl+up')
+            keyboard.press_and_release('ctrl+up')
+            keyboard.press_and_release('ctrl+up')
+            keyboard.press_and_release('ctrl+up')
+        except Exception as e:
+            return str(e)
+        return "success"
+    else:
+        try:
+            subprocess.call(["xte","keydown Ctrl_L","key up","keyup Ctrl_L"])
+            subprocess.call(["xte","keydown Ctrl_L","key up","keyup Ctrl_L"])
+            subprocess.call(["xte","keydown Ctrl_L","key up","keyup Ctrl_L"])
+            subprocess.call(["xte","keydown Ctrl_L","key up","keyup Ctrl_L"])
+            subprocess.call(["xte","keydown Ctrl_L","key up","keyup Ctrl_L"])
+            subprocess.call(["xte","keydown Ctrl_L","key up","keyup Ctrl_L"])
+            subprocess.call(["xte","keydown Ctrl_L","key up","keyup Ctrl_L"])
+        except Exception as e:
+            return str(e)
+        return "success"
+
+def vlc_pause():
+    # For windows
+    if os.name == 'nt':
+        import keyboard
+        try:
+            keyboard.press_and_release('space')
+        except Exception as e:
+            return str(e)
+        return "success"
+    else:
+        try:
+            subprocess.call(["xte","space"])
+        except Exception as e:
+            return str(e)
+        return "success"
+
 
 if __name__ == "__main__":
 
