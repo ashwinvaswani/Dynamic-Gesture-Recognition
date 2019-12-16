@@ -213,6 +213,7 @@ if __name__ == "__main__":
     pre =0
     prev = None
     prev2 = None
+    prev3 = None
     black = np.zeros((100, 400, 3), dtype = "uint8")
     num_classes = 5
 
@@ -241,7 +242,7 @@ if __name__ == "__main__":
         input=np.array(frames)
         
         if input.shape[0]==16:
-            frames = frames[4:]
+            frames = frames[2:]
             X_tr.append(input)
             X_train= np.array(X_tr)
             train_set = np.zeros((1, 16, img_cols,img_rows,3))
@@ -253,7 +254,7 @@ if __name__ == "__main__":
             # print(result_1)
             num = np.argmax(result_1,axis =1)
             instruction = dict_ind_to_class[num[0]]
-            if num[0]==prev and prev!=prev2:
+            if num[0]==prev and prev!=prev2 and prev2!=prev3:
                 if num[0]==0:
                     print(bring_down_tabs())
                 if num[0]==1:
@@ -263,6 +264,7 @@ if __name__ == "__main__":
                 if num[0]==3:
                     print(take_ss())
             print("Curr Gesture : ",dict_ind_to_class[num[0]],"prev :",dict_ind_to_class[prev] if prev!=None else '000',"prev2 :",dict_ind_to_class[prev2] if prev2!=None else '-----')
+            prev3 = prev2
             prev2 = prev
             prev = num[0]
             
