@@ -16,7 +16,7 @@ The base mapping of gestures is as follows:
 
 2. Swipe Right ========> Minimize current sab
 
-3. Pulling Hand In ====> Minimize all tabs and return to desktop
+3. Pulling Hand In =====> Minimize all tabs and return to desktop
 
 4. Thumbs up Motion ===> Screenshot
 
